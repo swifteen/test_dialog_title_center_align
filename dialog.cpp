@@ -8,6 +8,7 @@ Dialog::Dialog(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("long long \n test title");
+    setFixedSize(1000,800);
 }
 
 Dialog::~Dialog()

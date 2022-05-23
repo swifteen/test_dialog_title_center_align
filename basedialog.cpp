@@ -4,23 +4,29 @@
 #include <QFont>
 #include <QPainter>
 #include <QStyleOptionTitleBar>
-
+#include <QApplication>
+#include <QGraphicsDropShadowEffect>
 BaseDialog::BaseDialog(QWidget *parent) : QDialog(parent,Qt::FramelessWindowHint)
 {
-    setStyleSheet("QDialog::title {"
-                  "height: 50px;"
-                  "border-top-left-radius: 5px;"
-                  "border-top-right-radius: 5px;"
-                  "background: #1E2D5A;}"
+    setAttribute(Qt::WA_TranslucentBackground);//实现圆角窗口时，需要设置的最关键属性
+    //    QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect();
+    //    effect->setBlurRadius(20);
+    //    effect->setColor(QColor(Qt::darkYellow));
+    //    this->setGraphicsEffect(effect);
+    this->setObjectName("BaseDialog");//用于qss
+    qApp->setStyleSheet("QDialog::title {"
+                        "height: 50px;"/*标题栏高度*/
+                        "background: #1E2D5A;"/*标题栏背景色*/
+                        "border-top-left-radius: 10px;"
+                        "border-top-right-radius: 10px;}"
 
-                  "QDialog{"
-                  "color: #ffffff;"
-                  "font-size: 24px;"
-                  "background: #3E81DA;"
-                  "border-radius: 5px;"
-                  "border: 0px none transparent;"
-                  "border-color: transparent;"
-                  "}");
+                        "QDialog#BaseDialog{"
+                        "color: #00ff00;"/*标题栏文字颜色*/
+                        "font-size: 24px;"/*标题栏文字大小*/
+                        "background: #3E81DA;"/*Dialog背景色*/
+                        "border-bottom-left-radius: 10px;"
+                        "border-bottom-right-radius: 10px;}"
+                        );
     //初始化关闭按钮
     m_pClosePbtn = new QPushButton(this);
     m_pClosePbtn->setText("X");
@@ -28,6 +34,7 @@ BaseDialog::BaseDialog(QWidget *parent) : QDialog(parent,Qt::FramelessWindowHint
     connect(m_pClosePbtn,&QPushButton::clicked,this,&QDialog::close);
     m_pClosePbtn->setStyleSheet("QPushButton#DialogCloseButton{"
                                 "color:white;"
+                                "border-top-right-radius: 10px;"
                                 "background:transparent;"
                                 "border-color: transparent;}"
 
@@ -117,29 +124,29 @@ void BaseDialog::resizeEvent(QResizeEvent *event)
     qDebug()<<__FILE__<<__FUNCTION__<<__LINE__<<windowTitle();
     QDialog::resizeEvent(event);
     return;
-//    QString strTitle = windowTitle();
-//    QString strGap = QString(" ");
+    //    QString strTitle = windowTitle();
+    //    QString strGap = QString(" ");
 
-//    QFont font("Arial",11);
-//    QFontMetrics fontM(font);
-//    int nWid = fontM.horizontalAdvance(strTitle);
-//    int nWidSpace = fontM.horizontalAdvance(strGap);
+    //    QFont font("Arial",11);
+    //    QFontMetrics fontM(font);
+    //    int nWid = fontM.horizontalAdvance(strTitle);
+    //    int nWidSpace = fontM.horizontalAdvance(strGap);
 
-//    int nLengthPixmap = 10;
+    //    int nLengthPixmap = 10;
 
-//    double STPoint = (double)((double)(this->width()/2-nLengthPixmap) - (double)nWid/2);
-//    double widthOfSpace = (double)nWidSpace;
+    //    double STPoint = (double)((double)(this->width()/2-nLengthPixmap) - (double)nWid/2);
+    //    double widthOfSpace = (double)nWidSpace;
 
-//    QString strG = QString(" ");
-//    double tmpWidth = 0;
+    //    QString strG = QString(" ");
+    //    double tmpWidth = 0;
 
-//    for(;tmpWidth+widthOfSpace < STPoint;tmpWidth += widthOfSpace)
-//    {
-//        strG += QString(" ");
+    //    for(;tmpWidth+widthOfSpace < STPoint;tmpWidth += widthOfSpace)
+    //    {
+    //        strG += QString(" ");
 
-//    }
-//    QString strFinal = strG + strTitle;// + strG;
-//    setWindowTitle(strFinal);
-//    qDebug()<<__FILE__<<__FUNCTION__<<__LINE__<<windowTitle();
-//    QDialog::resizeEvent(event);
+    //    }
+    //    QString strFinal = strG + strTitle;// + strG;
+    //    setWindowTitle(strFinal);
+    //    qDebug()<<__FILE__<<__FUNCTION__<<__LINE__<<windowTitle();
+    //    QDialog::resizeEvent(event);
 }
